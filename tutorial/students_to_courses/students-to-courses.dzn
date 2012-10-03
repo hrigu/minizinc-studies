@@ -19,7 +19,6 @@ wish = [|1, 2, 3,   % A => a, b, c
     |4, 3, 2,       % E => d, c, b
     |2, 4, 1|];     % F => b, d, a
 
-
 % mögliche Lösung:
 % x-Achse: Kurse
 % y-Achse: Schüler

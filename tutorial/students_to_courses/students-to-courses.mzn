@@ -29,20 +29,24 @@ constraint forall( student in Students ) (
    X[student]== wish[student,3]
 );
 
+% Die Kapazität des Kurses dürfen nicht überschritten werden
 constraint forall( course in Courses ) (
   sum( student in Students) (
         bool2int(X[student]==course)
   ) <= capacity[course]
 );
 
-% Alle Schüler müssen genau einen Kurs besuchen
-% Die Kapazität des Kurses dürfen nicht überschritten werden
 % Die Summe der Prios der besuchten Kurses muss minimal sein
+var 1..3 * n_students: best_prios;
+best_prios = sum( student in Students) (
+        1 * bool2int(X[student]==wish[student,1])
+        + 2 * bool2int(X[student]==wish[student,2])
+        + 3 * bool2int(X[student]==wish[student,3])
+);
 
+solve minimize best_prios;
 
-
-solve satisfy;
-%output [show(X)];
-
-output [
-    show(s_name[student]) ++ ": " ++ show(X[student]) ++ "\n" | student in Students];
+output
+ ["Güte der Lösung: " ++ show(fix(best_prios)) ++ ".\n" ]
+  ++
+ [s_name[student] ++ ": " ++ c_name[fix(X[student])]  ++ "\n" | student in Students];
