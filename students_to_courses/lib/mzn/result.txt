@@ -1,9 +1,22 @@
-Güte der Lösung: 7.
+Güte der Lösung: 30.
 A: b
-B: x
-C: a
-E: y
-E: x
-F: b
+B: d
+C: c
+E: c
+F: d
+G: b
+H: b
+I: d
+J: c
+K: d
+L: d
+M: d
+N: d
+O: b
+P: d
+Q: c
+R: d
+S: d
+T: d
 ----------
 ==========

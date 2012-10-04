@@ -50,37 +50,5 @@ class Student
 end
 
 
-class Builder
-
-  def self.create
-    courses_def = [
-        [:a, 1], [:b, 2], [:y, 1], [:x, 2]
-    ]
-    students_def = [
-        [:A, :a, :b, :y],
-        [:B, :x, :b, :a],
-        [:C, :a, :y, :x],
-        [:E, :y, :x, :a],
-        [:E, :x, :y, :b],
-        [:F, :b, :x, :a]
-    ]
-
-    courses = []
-    courses_def.each do |c|
-      courses << Course.new(c[0], c[1])
-    end
-    Course.courses= courses
-
-    students = []
-    students_def.each do |s|
-      students << Student.new(s[0], [Course.index(s[1]), Course.index(s[2]), Course.index(s[3])])
-    end
-
-    Student.students = students
-  end
-
-end
-
-
 
 

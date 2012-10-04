@@ -1,5 +1,6 @@
 require 'erb'
 require File.dirname(__FILE__) + "/model.rb"
+require File.dirname(__FILE__) + "/builder.rb"
 
 class Info
   attr_accessor :n_courses, :capacity, :c_name
