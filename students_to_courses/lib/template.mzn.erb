@@ -1,0 +1,15 @@
+% Data file students-to-courses
+n_courses = <%= info.n_courses %>;
+capacity = <%= info.capacity %>;
+c_name = <%= info.c_name %>;
+
+n_students = <%= n_students %>;
+s_name = <%= info.s_name %>;
+
+n_wish = 3;
+
+% Die Kurswünsche der Schüler, 1, 2, und dritte Wahl
+% Die Kurse sind mit ihren ids angegeben, mit 1 begonnen
+% (Kurs 1 ist der "a" Kurs)
+
+wish = [<% info.wish_of_students.each do |wish| %>| <%= wish.join(", ") %><% end %>|];
