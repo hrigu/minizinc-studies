@@ -36,15 +36,15 @@ constraint forall( course in Courses ) (
   ) <= capacity[course]
 );
 
-% Die Summe der Prios der besuchten Kurses muss minimal sein
-var 1..8 * n_students: best_prios;
+% Die Summe der Prios der besuchten Kurse muss minimal sein
+var 0..8 * n_students: best_prios;
 best_prios = sum( student in Students) (
-        1 * bool2int(X[student]==wish[student,1])
-        + 2 * bool2int(X[student]==wish[student,2])
-        + 5 * bool2int(X[student]==wish[student,3])
+        5 * bool2int(X[student]==wish[student,1])
+        + 3 * bool2int(X[student]==wish[student,2])
+        % + 1 * bool2int(X[student]==wish[student,3])
 );
 
-solve minimize best_prios;
+solve maximize best_prios;
 
 output
  ["Güte der Lösung: " ++ show(fix(best_prios)) ++ ".\n" ]
