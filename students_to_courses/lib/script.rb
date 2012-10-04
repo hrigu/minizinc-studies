@@ -23,10 +23,10 @@ Builder.create
 info = Info.new
 info.n_courses = Course.courses.size
 info.capacity = Course.courses.map{|c| c.capacity}
-info.c_name = Course.courses.map{|c| c.name.to_s}
+info.c_name = Course.courses.map{|c| c.id.to_s}
 
 info.n_students = Student.students.size
-info.s_name = Student.students.map{|s| s.name.to_s}
+info.s_name = Student.students.map{|s| s.id.to_s}
 
 info.wish_of_students = Student.students.map{ |s| s.wish.map{|w| w+1}}
 

@@ -2,7 +2,7 @@ Güte der Lösung: 7.
 A: b
 B: x
 C: a
-E: c
+E: y
 E: x
 F: b
 ----------

@@ -1,8 +1,8 @@
 class Course
-  attr_accessor :name, :capacity
+  attr_accessor :id, :capacity
 
-  def initialize(name, cap)
-    @name, @capacity = name, cap
+  def initialize(id, cap)
+    @id, @capacity = id, cap
   end
 
   def self.courses=(courses)
@@ -14,12 +14,12 @@ class Course
   end
 
   def to_s
-    @name
+    @id
   end
-  def self.index(name)
-     @@courses.index{|c| c.name == name}
+  def self.index(id)
+     @@courses.index{|c| c.id == id}
 #    @@courses.each do |c|
-#      if (c.name == name)
+#      if (c.id == id)
 #        return c
 #      end
 #    end
@@ -28,10 +28,10 @@ end
 
 
 class Student
-  attr_accessor :name, :wish
+  attr_accessor :id, :wish
 
-  def initialize name, wish
-    @name, @wish = name, wish
+  def initialize id, wish
+    @id, @wish = id, wish
   end
 
   def self.students=(students)
@@ -42,8 +42,8 @@ class Student
     @@students
   end
 
-  def wish_as_name
-    @wish.map {|i| Course.courses[i].name}
+  def wish_as_id
+    @wish.map {|i| Course.courses[i].id}
   end
 
 
@@ -54,14 +54,14 @@ class Builder
 
   def self.create
     courses_def = [
-        [:a, 1], [:b, 2], [:c, 1], [:x, 2]
+        [:a, 1], [:b, 2], [:y, 1], [:x, 2]
     ]
     students_def = [
-        [:A, :a, :b, :c],
+        [:A, :a, :b, :y],
         [:B, :x, :b, :a],
-        [:C, :a, :c, :x],
-        [:E, :c, :x, :a],
-        [:E, :x, :c, :b],
+        [:C, :a, :y, :x],
+        [:E, :y, :x, :a],
+        [:E, :x, :y, :b],
         [:F, :b, :x, :a]
     ]
 
