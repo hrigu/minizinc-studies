@@ -49,9 +49,12 @@ best_prios = sum( student in Students) (
         + 3 * bool2int(X[student]==wish[student,3])
 );
 
-solve minimize best_prios;
+%solve minimize best_prios;
+solve satisfy;
 
 output
  ["Güte der Lösung: " ++ show(fix(best_prios)) ++ ".\n" ]
   ++
- [s_name[student] ++ ": " ++ c_name[fix(X[student])]  ++ "\n" | student in Students];
+ [s_name[student] ++ ": " ++ c_name[fix(X[student])]
+ ++
+  " ["++ show(c_name[wish[student,1]]) ++", "++ show(c_name[wish[student,2]]) ++", " ++ show(c_name[wish[student,3]]) ++"]\n" | student in Students];
