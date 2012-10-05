@@ -34,14 +34,13 @@ end
 
 watch = Stopwatch.new
 
-1.times do
-  Builder.new(5, 25).create
+10.times do
+  Builder.new(10, 50).create
 
   info = Info.create
 
   t = Time.now
-  time_as_string = "#{t.month}_#{t.day}_#{t.min}_#{t.sec}"
-
+  time_as_string = t.strftime("%y_%d_%H_%M_%S_%L")
   template_file_name = "template.mzn.erb"
   rendered_file_name = "students-to-courses_#{time_as_string}.dzn"
   renderer = ERB.new(File.read(template_file_name), nil, "<>") #trim mode '<>' means: newline for lines starting with <% and ending in %>
@@ -53,8 +52,8 @@ watch = Stopwatch.new
   Dir.chdir "mzn"
   result_file = "results/result_#{time_as_string}.txt"
   watch.start
-  system "mzn-g12fd students-to-courses2.mzn #{rendered_file_name} > #{result_file}"
-  puts watch.tick
+  system "mzn-g12fd students-to-courses.mzn #{rendered_file_name} > #{result_file}"
+  puts time_as_string +" - "+watch.tick
   Dir.chdir ".."
   watch.reset
 end
