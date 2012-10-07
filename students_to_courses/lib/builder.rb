@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + "/model.rb"
+
 class Base_Builder
   def create
     courses_def, students_def = create_definitions()
@@ -48,7 +50,7 @@ class ConcreteBuilder < Base_Builder
   end
 end
 
-class Builder < Base_Builder
+class Random_Builder < Base_Builder
   def initialize num_courses, num_students
     @num_courses, @num_students = num_courses, num_students
   end
@@ -68,9 +70,49 @@ class Builder < Base_Builder
     students_def = []
 
     @num_students.times do |i|
-      choices = courses_def.sample(3).map{|c|c[0]}
+      choices = courses_def.sample(3).map { |c| c[0] }
       students_def << [i, choices[0], choices[1], choices[2]]
     end
     return courses_def, students_def
   end
 end
+
+class Builder < Base_Builder
+  def initialize(course_sizes, num_students_array)
+    @course_sizes, @num_students_array = course_sizes, num_students_array
+  end
+
+  def create_definitions()
+
+    courses_def = []
+    @course_sizes.each_index do |i|
+      courses_def << [i, @course_sizes[i]]
+    end
+
+    students_def = []
+    @num_students_array.each_index do |i|
+      case i
+        when 0
+          @num_students_array[i].times do |j|
+            a = [1, 2].shuffle
+            students_def << [j, courses_def[i][0], courses_def[a[0]][0], courses_def[a[1]][0]]
+          end
+        when 1
+          @num_students_array[i].times do |j|
+            a = [0, 2].shuffle
+            index = @num_students_array[0] + j
+            students_def << [index, courses_def[i][0], courses_def[a[0]][0], courses_def[a[1]][0]]
+          end
+        when 2
+          @num_students_array[i].times do |j|
+            a = [0, 1].shuffle
+            index = @num_students_array[0] + j
+            students_def << [index, courses_def[i][0], courses_def[a[0]][0], courses_def[a[1]][0]]
+          end
+
+      end
+    end
+    return courses_def, students_def
+  end
+end
+
