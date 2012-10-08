@@ -43,9 +43,9 @@ best_prios = sum( student in Students) (
         + 3 * bool2int(X[student] == wish[student,3])
 );
 
-constraint best_prios <= 25;
+% constraint best_prios <= 25;
 
-solve satisfy;
+solve minimize best_prios;
 
 output
  ["Güte der Lösung: " ++ show(fix(best_prios)) ++ ".\n" ]

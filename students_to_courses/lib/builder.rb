@@ -78,41 +78,38 @@ class Random_Builder < Base_Builder
 end
 
 class Builder < Base_Builder
-  def initialize(course_sizes, num_students_array)
-    @course_sizes, @num_students_array = course_sizes, num_students_array
+  def initialize(course_capacities, num_students_array)
+    @course_capacities, @num_students_array = course_capacities, num_students_array
   end
 
   def create_definitions()
 
     courses_def = []
-    @course_sizes.each_index do |i|
-      courses_def << [i, @course_sizes[i]]
+    @course_capacities.each_with_index do |capa, i|
+      courses_def << [i, capa]
     end
 
-    students_def = []
+    course_defs_for_students = []
     @num_students_array.each_index do |i|
-      case i
-        when 0
-          @num_students_array[i].times do |j|
-            a = [1, 2].shuffle
-            students_def << [j, courses_def[i][0], courses_def[a[0]][0], courses_def[a[1]][0]]
-          end
-        when 1
-          @num_students_array[i].times do |j|
-            a = [0, 2].shuffle
-            index = @num_students_array[0] + j
-            students_def << [index, courses_def[i][0], courses_def[a[0]][0], courses_def[a[1]][0]]
-          end
-        when 2
-          @num_students_array[i].times do |j|
-            a = [0, 1].shuffle
-            index = @num_students_array[0] + j
-            students_def << [index, courses_def[i][0], courses_def[a[0]][0], courses_def[a[1]][0]]
-          end
-
+      @num_students_array[i].times do |j|
+        a = other_indices(i)
+        course_defs_for_students << [courses_def[i][0], courses_def[a[0]][0], courses_def[a[1]][0]]
       end
     end
+    course_defs_for_students.shuffle!
+
+    students_def = []
+    course_defs_for_students.each_with_index do |c_d, index|
+      students_def << [index, c_d[0], c_d[1], c_d[2]]
+    end
+
     return courses_def, students_def
+  end
+
+  def other_indices(i)
+    a = Array (0...@course_capacities.size)
+    a.delete i
+    a.shuffle!
   end
 end
 

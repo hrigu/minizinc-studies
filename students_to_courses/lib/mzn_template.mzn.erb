@@ -1,0 +1,53 @@
+
+%Number of different courses
+int: n_courses = <%= info.n_courses %>;
+set of int: Courses = 1..n_courses;
+%capacity of each courses available
+array[Courses] of int: capacity = <%= info.capacity %>;
+array[Courses] of string: c_name = <%= info.c_name %>;
+
+%Number of students
+int: n_students = <%= n_students %>;
+set of int: Students = 1..n_students;
+
+array[Students] of string: s_name = <%= info.s_name %>;
+
+% wish
+int: n_wish = 3;
+set of int: Wish = 1..n_wish;
+
+% Die Wunschlisten der Schüler
+array[Students, Wish] of int: wish = [<% info.wish_of_students.each do |wish| %>| <%= wish.join(", ") %><% end %>|];
+
+
+% Die Variablen: Pro Schüler einen Kurs
+<% info.wish_of_students.each_with_index do |wish, i| %>
+    var {<%= wish.join(", ") %>}: XS_<%= info.s_name[i] %>;
+<% end %>
+
+array[Students] of var int: X = [<%= info.s_name.map{|s| "XS_#{s}"}.join(", ") %>];
+
+
+% Die Kapazität des Kurses dürfen nicht überschritten werden
+constraint forall( course in Courses ) (
+  sum( student in Students) (
+        bool2int(X[student]==course)
+  ) <= capacity[course]
+);
+
+% Die Summe der Prios der besuchten Kurses muss minimal sein
+var 0..3 * n_students: best_prios;
+best_prios = sum( student in Students) (
+        bool2int(X[student] == wish[student,2])
+        + 3 * bool2int(X[student] == wish[student,3])
+);
+
+solve minimize best_prios;
+% solve satisfy;
+
+output
+ ["Güte der Lösung: " ++ show(fix(best_prios)) ++ ".\n" ]
+  ++
+ [s_name[student] ++ ": " ++ c_name[fix(X[student])]
+ ++
+  " ["++ show(c_name[wish[student,1]]) ++", "++ show(c_name[wish[student,2]]) ++", " ++ show(c_name[wish[student,3]]) ++"]\n" | student in Students];
